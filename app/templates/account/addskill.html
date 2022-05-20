@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block header %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container d-flex justify-content-center">
+    <a class="navbar-brand" href="#">Личный кабинет</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<h1>{{request.user.second_name}} {{request.user.first_name}} {{request.user.third_name}}</h1>
+{% regroup request.user.related_skills.all by tag as tag_list %}
+<ul>
+  {% for tag in tag_list %}
+      <li>{{ tag.grouper }}
+      <ul>
+          {% for skill in tag.list %}
+            <li>{{ skill.skill_name }}</li>
+          {% endfor %}
+      </ul>
+      </li>
+  {% endfor %}
+  </ul>
+<h2>Добавление нового навыка</h2>
+<h3>Выбрать из существующих навыков</h3>
+  <form action="{% url 'account:add_skill' %}" method="post">
+    {% csrf_token %}
+    {{ skill_form.as_p }}
+    <button type="submit">Добавить к себе</button>
+  </form>
+  <h3>Добавить свой навык</h2>
+  <form action="{% url 'account:add_customskill' %}" method="post">
+    {% csrf_token %}
+    {{ customskill_form.as_p }}
+    <button type="submit">Добавить к себе</button>
+  </form>
+  <p><a href="{% url 'account:home' %}">Вернуться на главную</a></p>
+{% endif %}
+{% endblock %}

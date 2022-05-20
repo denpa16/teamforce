@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from .models import CustomUser
+from .models import CustomUser, Skill, SkillTag
 
 
 @admin.register(CustomUser)
@@ -11,7 +11,7 @@ class UserAdmin(DjangoUserAdmin):
 
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        (_('Personal info'), {'fields': ('first_name', 'last_name')}),
+        (_('Personal info'), {'fields': ('first_name', 'second_name', 'third_name')}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
                                        'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
@@ -22,6 +22,13 @@ class UserAdmin(DjangoUserAdmin):
             'fields': ('email', 'password1', 'password2'),
         }),
     )
-    list_display = ('email', 'first_name', 'last_name', 'is_staff')
-    search_fields = ('email', 'first_name', 'last_name')
+    list_display = ('email', 'first_name', 'second_name', 'third_name', 'is_staff')
+    search_fields = ('email', 'first_name', 'second_name', 'third_name')
     ordering = ('email',)
+
+
+class SkillAdmin(admin.ModelAdmin):
+    list_display = ('skill_name',)
+
+admin.site.register(Skill, SkillAdmin)
+admin.site.register(SkillTag)

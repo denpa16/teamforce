@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block header %}
+<nav class="navbar navbar-light bg-light">
+  <div class="container d-flex justify-content-center">
+    <a class="navbar-brand">HRTech</a>
+    <a href="{% url 'account:add_skill' %}">Личный кабинет<a>
+  </div>
+</nav>
+{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+{% for customuser in customusers %}
+<div class="container p-3 mb-2 bg-dark text-white">
+  <h1>{{customuser.second_name}} {{customuser.first_name}} {{customuser.third_name}}</h1>
+{% regroup customuser.related_skills.all by tag as tag_list %}
+<ul>
+  {% for tag in tag_list %}
+      <li>{{ tag.grouper }}
+      <ul>
+          {% for skill in tag.list %}
+            <li>{{ skill.skill_name }}</li>
+          {% endfor %}
+      </ul>
+      </li>
+  {% endfor %}
+  </ul>
+  {% if customuser == request.user %}
+  <p><a href="{% url 'account:add_skill' %}">Добавить новый навык</a></p>
+{%endif%}
+</div>
+
+{% endfor %}
+
+<p><a href="{% url 'account:logout' %}">Выйти</a></p>
+{% else %}
+  <a href="{% url 'account:login' %}">Войти</a> |
+  <a href="{% url 'account:signup' %}">Зарегистрироваться</a>
+{% endif %}
+{% endblock %}
