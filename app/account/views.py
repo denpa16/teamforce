@@ -5,6 +5,7 @@ from .models import CustomUser, Skill, SkillTag
 from .forms import SkillForm, CustomSkillForm
 from .models import CustomUser
 from .forms import SignUpForm, LogInForm
+from django.contrib.auth.decorators import login_required
 
 def signup(request):
     if request.method == 'POST':
@@ -43,7 +44,7 @@ def log_out(request):
     logout(request)
     return redirect(reverse('account:login'))
 
-
+@login_required
 def home(request):
     customusers = CustomUser.objects.all()
     skills = Skill.objects.all()
@@ -55,6 +56,7 @@ def home(request):
     #print(user.related_skills.all())
     return render(request, 'account/home.html', {'skills': skills, 'skill_form': skill_form, 'customusers': customusers,})
 
+@login_required
 def add_skill(request):
     skills = Skill.objects.all()
     skill_form = SkillForm()
@@ -69,6 +71,7 @@ def add_skill(request):
             print(request.user.related_skills.all())
     return render(request, 'account/addskill.html', {'customskill_form': customskill_form, 'skill_form': skill_form,'skills': skills,})
 
+@login_required
 def add_customskill(request):
     if request.method == "POST":
         try:
