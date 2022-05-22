@@ -14,7 +14,7 @@ class SignUpForm(UserCreationForm):
 
 class LogInForm(forms.Form):
     email = forms.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput)
+    password = forms.CharField(widget=forms.PasswordInput,  label='Пароль')
 
 
 """class SkillTagChoiceField(ModelChoiceField):

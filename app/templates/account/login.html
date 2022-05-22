@@ -2,13 +2,13 @@
 
 {% block content %}
 {% if error %}
-<p><strong>Invalid email or password.</strong></p>
+<p><strong>Неверный email или пароль</strong></p>
 {% endif %}
 <h2>Log In</h2>
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">Log In</button>
+  <button type="submit">Войти</button>
 </form>
 <a href="{% url 'account:signup' %}">Зарегистрироваться</a>
 {% endblock content %}

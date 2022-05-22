@@ -8,9 +8,9 @@ from django.conf import settings
 class CustomUser(AbstractUser):
     username = None
     email = models.EmailField("email address", unique=True)
-    first_name = models.CharField('first_name', max_length=50)
-    second_name = models.CharField('second_name', max_length=50)
-    third_name = models.CharField('third_name', max_length=50)
+    first_name = models.CharField('Имя', max_length=50)
+    second_name = models.CharField('Фамилия', max_length=50)
+    third_name = models.CharField('Отчество', max_length=50)
     USERNAME_FIELD = "email" # make the user log in with the email
     REQUIRED_FIELDS = []
 
